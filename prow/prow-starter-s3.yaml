@@ -1,6 +1,11 @@
 # This file contains Kubernetes YAML files for the most important prow
 # components. Don't edit resources in this file. Instead, pull them out into
 # their own files.
+# ---
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: prow
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -26,6 +31,24 @@ data:
         - verify-owners
         - wip
         - yuks
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   namespace: prow
+#   name: github-token
+# stringData:
+#   cert: <<insert-downloaded-cert-here>>
+#   appid: <<insert-the-app-id-here>>
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   namespace: prow
+#   name: hmac-token
+# stringData:
+#   # Generate via `openssl rand -hex 20`. This is the secret used in the GitHub webhook configuration
+#   hmac: << insert-hmac-token-here >>
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -61,11 +84,11 @@ data:
          - podinfo.json
     plank:
       job_url_prefix_config:
-        "*": https://prow.prow-test-roger.com/view/
+        "*": https://<< insert_domain_here >>/view/
       report_templates:
         '*': >-
-            [Full PR test history](https://prow.prow-test-roger.com/pr-history?org={{.Spec.Refs.Org}}&repo={{.Spec.Refs.Repo}}&pr={{with index .Spec.Refs.Pulls 0}}{{.Number}}{{end}}).
-            [Your PR dashboard](https://prow.prow-test-roger.com/pr?query=is:pr+state:open+author:{{with
+            [Full PR test history](https://<< insert_domain_here >>/pr-history?org={{.Spec.Refs.Org}}&repo={{.Spec.Refs.Repo}}&pr={{with index .Spec.Refs.Pulls 0}}{{.Number}}{{end}}).
+            [Your PR dashboard](https://<< insert_domain_here >>/pr?query=is:pr+state:open+author:{{with
             index .Spec.Refs.Pulls 0}}{{.Author}}{{end}}).
       default_decoration_configs:
         "*":
@@ -457,7 +480,7 @@ spec:
       port:
         number: 80
   rules:
-  - host: prow.prow-test-roger.com
+  - host: << insert_domain_here >>
     http:
       paths:
       - path: /
