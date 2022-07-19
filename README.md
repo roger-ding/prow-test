@@ -55,5 +55,5 @@ Setup ultrahook
 1. Register for ultrahook api on their website
 2. $> gem install ultrahook
 3. $> echo "api_key: <API KEY GIVEN UPON REGISTRATION>" > ~/.ultrahook
-4. ultrahook prow http://prow.<domain_name>q
+4. ultrahook prow http://prow.<domain_name>
 
