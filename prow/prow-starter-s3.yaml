@@ -113,6 +113,8 @@ data:
         - do-not-merge/invalid-owners-file
         orgs:
         - roger-ding
+      merge_method:
+        roger-ding: squash
     decorate_all_jobs: true
     periodics:
     - interval: 1m
