@@ -24,7 +24,7 @@ Create domain and DNS endpoints
 2. Get local IP
     1. $> ifconfig -l | xargs -n1 ipconfig getifaddr
 3. Two A records (1 blank and 1 WWW with both pointing to local IP address from step above)
-4. One CNAME record pointing to desired prow endpoint
+4. One CNAME record pointing to desired prow endpoint (e.g. prow.prow-test-blah-blah.com)
 
 Create kind cluster and prow components
 1. Create kind cluster
@@ -39,12 +39,13 @@ Create kind cluster and prow components
         2. $> kubectl create secret -n prow generic hmac-token --from-file=hmac=hook_secret
     3. GitHub secret
         1. $> mv $PATH_TO_PEM_FILE .
-        2. $> kubectl create secret -n prow generic github-token --from-file=cert=$PATH_TO_PEM_FILE --from-literal=appid=<ID OF GITHUB APP>
+        2. $> kubectl create secret -n prow generic github-token --from-file=cert=$PATH_TO_PEM_FILE --from-literal=appid=<GITHUB_APP_ID>
     4. Prowjob CRD
         1. $> kubectl apply --server-side=true -f prow/prowjob_customresourcedefinition.yaml
         2. [Prowjob CRD Link](https://github.com/kubernetes/test-infra/blob/master/config/prow/cluster/prowjob-crd/prowjob_customresourcedefinition.yaml)
 3. Create rest of prow components
-    1. $> kubectl apply -f prow/prow-starter-s3.yaml
+    1. Edit prow-starter file <insert_domain_here> sections with domain name and DNS endpoints from freenom section above (e.g. prow.prow-test-blah-blah.com)
+    2. $> kubectl apply -f prow/prow-starter-s3.yaml
     2. [Prow starter component file](https://github.com/kubernetes/test-infra/blob/master/config/prow/cluster/starter/starter-s3.yaml)
 4. Create nginx ingress components
     1. $> kubectl apply -f nginx-ingress/nginx-ingress-deploy.yml
