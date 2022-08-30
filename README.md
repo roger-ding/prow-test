@@ -30,7 +30,7 @@ Create kind cluster and prow components
 1. Create kind cluster
     1. $> export KUBECONFIG=$HOME/kind_kubeconfig_prow
     2. Edit kind/kind-ingress-cluster-config.yaml, uncomment and replace x.x.x.x for ip address lines
-    2. $> kind create cluster --name prow --config kind/kind-ingress-cluster-config.yaml --image docker-dev-artifactory.workday.com/envauto-tools/library/kind/node:v1.23.4
+    2. $> kind create cluster --name prow --config kind/kind-ingress-cluster-config.yaml --image <node:v1.23.4 image>
 2. Create prow namespace, hmac token, GitHub secret, and prowjob CRD
     1. Prow namespace
         1. $> kubectl create ns prow
